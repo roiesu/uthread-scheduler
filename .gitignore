@@ -1,0 +1,14 @@
+# Compiled object files
+*.o
+
+# Executable binary
+test_threads
+
+# Editor and OS temp files
+*~
+*.swp
+.DS_Store
+
+# Debug files
+core
+vgcore.*
