@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#define TIME_QUANTUM 100000
+
 void thread_func1() {
     printf("[TID 1] Start\n");
     printf("[TID 1] Blocking self\n");
@@ -23,7 +25,7 @@ void thread_func2() {
 }
 
 int main() {
-    if (uthread_system_init(100000) == -1) {
+    if (uthread_system_init(TIME_QUANTUM) == -1) {
         fprintf(stderr, "Failed to initialize uthreads system\n");
         return 1;
     }
@@ -37,8 +39,6 @@ int main() {
     }
 
     printf("[Main] Created threads %d and %d\n", tid1, tid2);
-
-    // keep the main thread running to allow SIGVTALRM to be triggered
     while (1) {
         for (volatile int i = 0; i < 1000000; ++i); // busy loop to consume CPU
     }
