@@ -282,6 +282,10 @@ int uthread_block(int tid) {
         }
     }
 
+    if (tid == current_tid) {
+        schedule_next();
+    }
+
     return 0;
 }
 
@@ -314,8 +318,10 @@ int uthread_sleep_quantums(int num_quantums) {
         return -1;
     }
 
-    sched.threads[sched.current_tid].state = SLEEPING;
-    sched.threads[sched.current_tid].quantums_left_to_sleep = num_quantums;
-    
+    threads[current_tid].state = SLEEPING;
+    threads[current_tid].quantums_left_to_sleep = num_quantums;
+
+    schedule_next();
+
     return 0;
 }
